@@ -1,0 +1,989 @@
+\documentclass[11pt]{amsart}
+\usepackage{amsmath, amssymb, amsthm,color}
+\usepackage{amssymb,longtable}
+\usepackage{amsfonts}
+\usepackage{setspace}
+\usepackage{amsmath} 
+\usepackage{hyperref} 
+\usepackage{latexsym}
+\usepackage{array}
+\usepackage{amssymb}
+\textwidth 14cm
+\newcommand{\Red}{}
+\renewcommand{\Red}[1]{{\color{red} #1}}
+\usepackage{showkeys}
+\theoremstyle{plain}
+\newtheorem{scholie}{Scholie}
+\newtheorem*{acknowledgements}{Acknowledgements}
+\newtheorem{assumption}{Assumption}
+%\newtheorem*{defi}{Definition}
+%%\usepackage{showkeys}
+%\setlength{\textwidth}{14cm}
+%\setlength{\textheight}{20cm}
+\numberwithin{equation}{section}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lemm}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{defi}[thm]{Definition}
+
+\theoremstyle{remark}
+\newtheorem{rema}[thm]{Remark}
+\newtheorem{defn}[thm]{Definition}
+\renewcommand{\div}{{\rm div}}
+\newcommand{\curl}{{\rm curl}} 
+\newcommand{\DD}{\textnormal{D}} 
+\newcommand{\Z}{\mathbb{Z}}  
+\newcommand{\C}{\mathbb{C}}  
+\newcommand{\N}{\mathbb{N}} 
+\newcommand{\V}{\zeta}
+\newcommand{\T}{\vartheta}
+\newcommand{\R}{\mathbb{R}} 
+\newcommand{\EE}{\varepsilon} 
+\newcommand{\UU}{\mathbb{U}} 
+\newcommand{\XX}{X_{t,|\textnormal{D}|}} 
+\newcommand{\PP}{\mathfrak{p}}
+\newcommand{\ww}{\tilde{\omega}}
+\newcommand{\QQ}{\mathbb{Q}} 
+\newcommand{\HH}{\ell} 
+\newcommand{\MM}{\mathfrak{m}}
+\newcommand{\rr}{\mathcal{R}}
+\newcommand{\Supp}{\rm Supp }
+\newcommand{\wt}{\widetilde}
+\newcommand{\D}{\Delta}
+%\newcommand{\eqdefa}{\buildrel\hbox{\footnotesize def}\over =}
+\newcommand{\bq}{\begin{equation}}
+\newcommand{\eq}{\end{equation}}
+%\newcommand{\gradient}[1]{\vec{\nabla} #1}            
+%\newcommand{\div er}[1]{\vec{\nabla} \cdot #1}      
+\newcommand{\rotat}[1]{\vec{\nabla} \times #1}
+\newcommand{\diver}[1]{ \textnormal{div}\hspace{0.07cm} #1} 
+
+%\numberwithin{equation}{section}
+
+\renewcommand{\L}{{\mathcal L} }
+
+\begin{document}
+
+\title{DYNAMICS OF NONLINEAR SCHRODINGER EQUATION}
+\author{CIMS Lectures 1 by Pierre Germain}
+
+\maketitle
+
+\tableofcontents
+
+{\bf January 29, 2014}
+
+\setstretch{1.5}
+
+\part{Introduction}
+
+\section{The Fourier Transform}
+
+Take $f,$ complex valued, on $\R^d.$ Then $\hat{f}$ on $\R^d$ is also complex valued:
+
+$$\hat{f}(\xi) = \frac{1}{(2\pi)^\frac{d}{2}}\int_{\R^d} f(x)e^{-ix\cdot\xi} dx$$ 
+
+$${f}(x) = \frac{1}{(2\pi)^\frac{d}{2}}\int_{\R^d} \hat{f}(\xi)e^{ix\cdot\xi} d\xi$$ 
+
+also denote the Fourier transform by $\mathcal{F}.$ 
+
+$$\mathcal{F} : \mathcal{S} \rightarrow \mathcal{S}$$
+
+$$\mathcal{F} : \mathcal{S'} \rightarrow \mathcal{S'}$$
+
+$\mathcal{F}$ is an \emph{isometry} on $L^2 (\R^d).$
+
+\subsection{Some important properties of $\mathcal{F}$:}
+
+$$f+g \rightarrow \hat{f} + \hat{g}, $$
+$$fg \rightarrow \hat{f} \star \hat{g},$$
+$$f\star g \rightarrow \hat{f} \hat{g},$$
+$$f(\lambda x) \rightarrow \frac{1}{\lambda^d} \hat{f}(\frac{\xi}{\lambda}),$$
+$$xf(x) \rightarrow i\partial_{\xi} \hat{f}(\xi)$$
+$$\partial_{x} f(x) \longrightarrow i\xi \hat{f}(\xi)$$
+
+where $$f\star g(x) := \int_{\R^d} f(x-y)g(y)dy.$$
+
+
+Important point: the Fourier transform turns polynomials into derivatives and derivatives into polynomials. 
+
+\subsection{Fourier Multipliers}
+
+If $\tau: \R^d \rightarrow \R$ then define and operator $\tau(D)$ by :
+
+$$\tau(D) f := \mathcal{F}^{-1} \big ( \tau(\xi)\hat{f}(\xi) \big ).$$ 
+
+Example: $\tau(\xi) =\xi^2.$
+
+$$\tau(D) f =\mathcal{F}^{-1} \big ( \xi^2 \hat{f}(\xi) \big).$$
+
+We can see, then, that $\tau(D) = -\Delta,$ where $\Delta$ is the one dimensional Laplacian. 
+
+In higher dimensions, this is the same but with $\tau(\xi) = |\xi|^2$ gives $\tau(D)= -\Delta.$
+
+\section{Nonlinear Dispersive Equations}
+
+Why do we care about NLS? 
+
+NLS: prototype (most simple example keeping the essential features)
+
+NLS:
+
+$$i\partial_{t} u -\Delta u = |u|^2 u.$$
+
+Nonlinear dispersive equations show up in:
+
+(1) Water waves
+(2) Einstein equations (relativity)
+(3) Elasticity, fluids, nonlinear optics, ...
+
+
+\subsection{General Form}
+
+$$i\partial_{t} u - L u = N(u)$$
+
+where $N(u)$ is a nonlinear function of $u,$ for example $f(|u|^2)u.$
+
+$L=\tau(D)$ is an operator and $\tau :\R^d \rightarrow \R$ (it is important that $\tau$ is real valued).  $\tau$ is called the dispersion relation. 
+
+Let's focus on the linear problem:
+
+$$i\partial_{t} u(t,x) - \tau(D) u(t,x)=0,$$
+
+$$u(t=0) =u_{0}.$$ 
+
+The trick to solve this equation is to take the Fourier transform in $x.$
+
+Then, $$i\partial_{t} \hat{u} (t,\xi) -\tau(\xi) \hat{u}(t,\xi)=0.$$
+
+Now, for fixed $\xi,$ this is just an ODE which we can solve. 
+
+$$\hat{u} (t,\xi)= e^{it \tau(\xi)}\hat{u_{0}}(\xi).$$
+
+In order to find the solution in "physical space" then we would have to take the inverse Fourier transform. 
+
+$$u(t,x) = \mathcal{F}^{-1} \hat{u}(t,\xi) $$ 
+
+$$= \int_{\R^d} e^{it(X\xi+\tau(\xi))}\hat{u_{0}}(\xi)d\xi, X=\frac{x}{t}$$
+
+We see that this looks like an "oscillatory integral." As $t$ gets larger and larger, the integral becomes more and more oscillatory. This leads to cancellations and to the point-wise decay of $u.$
+
+\subsection{Oscillatory Integrals}
+
+Define $$I(\lambda) = \int_{\R^d} e^{i\lambda\phi(y)}f(y)dy$$
+
+Basic phenomenon:
+
+If $\phi(y)=y,$  $$I(\lambda)= \int_{\R} (cos(\lambda y)+i sin(\lambda y))f(y)dy$$
+
+\begin{thm}
+
+Let $\phi, f \in C^{\infty}_{0}.$ If $\nabla \phi$ does not vanish on $supp(f),$ then for all $N$ there exists $C_{N}$ such that $$|I(\lambda)| \leq \frac{C_{N}}{\lambda^N}.$$
+
+
+\end{thm}
+
+\begin{proof}
+We restrict ourselves to the case $d=1.$ Use the fact that $\frac{1}{\lambda \phi'} \frac{d}{dy} e^{i\lambda \phi} =e^{i\lambda \phi}$ and integrate by parts!
+
+$$I(\lambda) = \int_{\R^d} \big ( \frac{1}{i\lambda \phi'} \frac{d}{dy} \big)^N e^{i\lambda \phi(y)}f(y)dy$$
+
+Now integration by parts gives:
+
+$$I(\lambda) = \frac{1}{\lambda^N}\int_{\R^d}  e^{i\lambda \phi(y)} \big ( -\frac{1}{i\phi'} \frac{d}{dy} \big)^N f(y)dy.$$
+
+This completes the proof in the case $d=1.$ The higher dimensional case is similar. 
+
+\end{proof}
+
+
+Now, for us, $f(y)$ is $\hat{u_0} (\xi)$ and $\phi(y)$ is $\phi(\xi) = X\xi +\tau(\xi).$
+
+Assume that $\hat{u_{0}}$ is localized around in $\xi_0$ in Fourier space. 
+
+Now we want to analyze the behavior of $u(t,x)$ when $t\longrightarrow \infty.$
+
+Remember that $$u(t,x)= \int_{\R^d} e^{it(X\xi+\tau(\xi))}\hat{u_{0}}(\xi)d\xi.$$
+
+By the theorem, $u(t,x)$ decays faster than $\frac{1}{T^N}$ except if there is $\xi$ such that $\hat{u_{0}} (\xi) \not = 0$ AND $\nabla_{\xi} (X\xi =\tau(\xi)).$
+
+That is $u$ is almost zero except when $\xi \approx \xi_0$ AND $x \approx -t \nabla (\tau) (\xi_0). $
+
+We now see the main point of dispersive equations:
+
+"Different frequencies travel with different velocities!" 
+
+In other words, the frequence $\xi$ travels at the velocity $-\nabla \tau(\xi)$ which is called the group velocity.  
+
+In other words, the solution has to "spread out" which means the solution has to have "spatial decay."
+
+We saw that if $\hat{u_0} (\xi)$ is localized around $\xi_0$ then $u,$ the solution of $ i\partial_t u -\tau(D) u=0$ is localized around $x \approx -t \nabla \tau(\xi_0)$ (the group velocity). 
+
+Such a solution is called a wave-packet. 
+
+Another important type of solution of $i\partial_t -\tau (D) u=0$ is given by plane waves (which are of infinite energy):
+
+$$u(t,x) = e^{i (x\xi_0 - t \tau(\xi_0))}.$$ 
+
+
+\emph{Wednesday, February 12, 2014}
+
+\section{Universality of NLS}
+
+Any nonlinear dispersive equation reduces in the weakly non-linear and nearly monocrhomatic regime to NLS
+
+We consider the model nonlinear dispersive equation:
+
+$$i\partial_t u + \tau(D) u= |u|^2 u$$
+
+We feed it with data $u(t=0)= \epsilon e^{ikx} A_{0}(\epsilon x).$
+
+(this is what weakly non-linear means) 
+
+
+Why would one get (NLS) in the limit
+
+The dynamics only see frequencies close to $k.$
+
+Expand $\tau$ around $k$
+
+$$\tau(k+\eta)=\tau(k)+ \tau'(k)\eta + \frac{1}{2}\tau''(k)\eta^2 + O(\epsilon^3)$$
+
+The first term gives:
+
+$$i\partial_t u + \tau(k)u=0$$
+
+The second term gives:
+
+$$i\partial_t u + \tau'(k)i\partial_x=0$$
+
+The third term gives:
+
+$$i\partial_{t} u +\frac{1}{2}\tau'(k) \Delta u= u|u|^2$$
+
+The final term is just NLS. 
+
+This was very heuristic. 
+
+Let's look at a slightly more rigorous justification:
+
+We start with the ansatz
+
+$$u(t,x)=\epsilon e^{i (kx +t \tau(k))} A(\epsilon x, \epsilon t, \epsilon^2 t)$$
+
+(there is a more general approach in Michael Weinstein's lecture notes)
+
+Now we want to see what the equation for $A$ should be. The idea is to put our Ansatz into the equation and then identify common powers of $\epsilon.$ We break this part up into a few steps. 
+
+\emph{Step 1:} Expanding $\tau(D) \big ( A({x\epsilon})e^{ikx} \big ):$
+
+Dropping a few constants we get:
+
+$$\tau(D) \big ( A({x\epsilon})e^{ikx} \big ) = \int e^{ix\xi} \tau(\xi) \frac{1}{\epsilon} \hat{A} \big ( \frac{\xi-k}{\epsilon} \big )d\xi $$
+$$= \int e^{ix\xi} (\tau(k) +\tau'(k) (\xi-k) + \frac{\tau''(k)}{2} (\xi-k)^2)\frac{1}{\epsilon} \hat{A} \big ( \frac{\xi-k}{\epsilon} \big )d\xi + O(\epsilon^3)$$
+Now make a change of variables $\xi'=\xi-k$ (we are going to write this without the $'$).
+$$ =e^{ixk}\int e^{ix\xi} (\tau(k) +\tau'(k) \xi + \frac{\tau''(k)}{2} \xi^2)\frac{1}{\epsilon} \hat{A} \big ( \frac{\xi}{\epsilon} \big )d\xi + O(\epsilon^3)$$ 
+$$= e^{ixk} \big  ( \tau(k)A(\epsilon x) + \epsilon \tau'(k) \epsilon \tau'(k)[i\partial_{x} A] (\epsilon x) + \epsilon^2 \frac{\tau''(k)}{2} [\partial_{x}^2 A] (\epsilon x)   \big )+ O(\epsilon^3)$$
+
+\emph{Step 2:} Expanding $\partial_{t} u$ in powers of $\epsilon.$
+
+$$\partial_{t} (\epsilon e^{i(kx+\tau(k)t)} A(\epsilon x, \epsilon t, \epsilon^2 t))$$
+
+Take $X=\epsilon x$ and $T_1 = \epsilon t$ and $T_2= \epsilon^2 t$
+
+$$= \epsilon e^{i(kx+\tau(k)t)} (i\tau(k)+\epsilon \partial_{T_1} A +\epsilon^2 \partial_{T_2} A) $$
+
+\emph{Step 3:} The nonlinearity
+
+We have $\epsilon^3 e^{i (kx +\tau (k)t)} |A|^2 A$  which is of higher order.
+
+\emph{Step 4:} Identify powers of $\epsilon$ in the dispersive equation. 
+
+(1) Order of $\epsilon$
+$$ i*i \tau(k) \epsilon e^{ii (kx +\tau (k)t)} A +\tau(k) \epsilon e^{i (kx +\tau (k)t)}A =0$$
+
+(automatically satisfied)
+
+(2) Order of $\epsilon^2$
+
+$$e^{i (kx +\tau (k)t)} ( i\epsilon^2 \partial_{T_1} A +i\epsilon^2 \tau'(k) \partial_x A)=0$$
+
+So, $A$ satisfies a transport equation: 
+
+$$\partial_{T_1} +\tau'(k) \partial_{X} A=0$$
+
+--> $$A=A(X-\tau'(k)T_1)$$
+
+(3) Order of $\epsilon^3$
+
+$$\partial_{T_2} A + \frac{\tau''(k)}{2} \partial_{x}^2 A = |A|^2 A$$
+
+Putting everything together, the solution is described within $O(\epsilon^4)$ by $$u(t,x)= e^{i (kx +\tau (k)t)} A(\epsilon^2 t, \epsilon x -\tau'(k) \epsilon t)$$
+
+where $A$ solves the NLS:
+
+$$ i \partial_{T_2} A + \frac{\tau''(k)}{2} \partial_{y}^2 A = |A|^2 A.$$
+
+
+
+\part{The Linear Schrodinger Equation}
+
+$$i\partial_{t} u(t,x) + \Delta u=0$$
+
+$u$ is a function of $t, x.$ $u\in \C,$ $t\in \R,$ and $x\in \R^d.$  
+
+Our Aim is to identify, in various ways, the dispersive effects.
+
+\section{Plane waes and wave packets}
+
+\emph{Plane waves}: $$e^{i (kx-tk^2)}, k \in \R^d$$
+
+These are not localized and not of finite energy if we are looking in $\R^d.$ If we are on the Torus, take $k\in 2\pi \mathbb{Z}^d.$
+
+\emph{Wave packets}: correspond to data which are localized in frequency. 
+
+Assume $u(t=0)=f$ $\hat{f}$ localized close to $k.$
+
+To solve $i\partial_{t} u -\Delta u=0.$ To solve tis equation we take the Fourier transform and get $$i\partial_{t} \hat{u} + |\xi|^2 \hat{u}(t,\xi)=0$$
+$$\hat{u}(t=0)=\hat{f}(\xi)$$
+
+which gives $$\hat{u}(t,\xi)=e^{it|\xi|^2}\hat{f}(\xi)$$
+
+$$u(t,x)= \int_{\R^d} e^{ix\cdot \xi} e^{it|\xi|^2} \hat{f}(\xi) d\xi$$
+$$ =\int_{\R^d} e^{it(|\xi|^2+X\cdot \xi)} \hat{f}(\xi) d\xi,$$ $X=\frac{x}{t}.$
+
+\subsection{Oscillatory integrals}
+
+$$I(\lambda) =  \int_{\R^d} e^{i\lambda \phi(x)} F(x) dx$$
+and $\phi, F\in C^{\infty}_0.$
+
+The non-stationary phase theorem:
+
+If $\nabla \phi$ does not vanish on the support of $F$, then $I(\lambda)= O(\frac{1}{\lambda^N})$ for all $N$ as $\lambda\rightarrow \infty.$ 
+
+Remark: what if $\nabla \phi \equiv 0$? Then $I(\lambda)$ has no decay!
+
+The stationary phase theorem:
+
+\begin{thm}
+
+If $\nabla \phi$ vanishes at $x_0$ (only) and $Hess(\phi)(x_0)$ is nondegenerate then $$I(\lambda)=\frac{c_d}{\lambda^{d/2} (Hess \phi (x_0))^\frac{1}{2}}F(x_0) + O(\frac{1}{\lambda^{d/2+1}}) $$
+
+\end{thm}
+
+
+We will not prove this theorem but the proof can be found in Stein's "Harmonic Analysis."
+
+Back to $u(t,x) = \int e^{it \phi(x,\xi)} \hat{f} (\xi) d\xi $
+where $\phi(x,\xi)=x\cdot \xi - |\xi|^2$
+Now, $$\nabla_{\xi}\phi= x-\tau\xi$$ and $$ Hess (\phi) = 2 Id$$
+
+$$u(t,x) = \frac{C}{t^d/2} \hat{f}(x/2t) e^{i|x|^2 /4t}$$
+ 
+Two remarks:
+
+solutions of the linear schrodinger equation decay at a rate of $$\frac{1}{d/2}$$ in $L^\infty$ and $\hat{f}$ is localized around $k$ means that $\frac{x}{2t} \approx k.$
+
+\section{Dispersive estimates}
+
+\begin{thm}
+If $2\leq p \leq \infty.$
+
+$$\| e^{it\Delta} f \|_p \leq \frac{C}{t^{d/2-d/p}} \| f\|_{p'}$$ where $p$ and $p'$ are conjugate exponents. 
+
+In the $p=2$ case, the inequality is obvious. 
+
+$$\| e^{it \Delta} f\|_{\infty} \leq \frac{C}{t^{d/2}} |f|_{L^1}$$
+
+\end{thm}
+
+How do we prove this theorem?
+
+\subsection{The fundamental solution of the linear Schrodinger equation}
+
+$$i\partial_{t} - \Delta u=0$$ 
+
+In other words, find $K_{t}(x)$ such that if $u(t=0)=f$ then $$u(t,x)=K_{t} \star f.$$
+
+Now, we know that $$\hat{u} =e^{-it|\xi|^2} \hat{f} (\xi).$$
+
+Take the inverse Fourier transform:
+
+$$u =  \hat{e^{-it|\xi|^2}} (- \, \cdot) \star f$$
+The fundamental solution is $$K_{t}(x)=\int_{\R^d} e^{-it|\xi|^2}e^{ix\cdot\xi}d\xi$$
+
+We will show:
+
+$$K_{t}(x)= \frac{C}{t^{d/2}}e^{-\frac{|x|^2}{2it}}.$$ 
+
+The dispersive estimate will then follow from Young's inequality.
+
+\begin{proof} (Of formula for fundamental solution)
+
+$$K_{t}(x) = \lim_{\epsilon\rightarrow 0} \int_{\R^d} e^{ix\cdot\xi -it|\xi|^2 -\epsilon |\xi|^2} d\xi$$
+
+$$= \int e^{- (\sqrt{\epsilon+it}\xi -\frac{ix}{\sqrt{\epsilon +it}})^2} e^{\frac{x^2}{4(\epsilon+it)}} d\xi$$
+
+Contour integration $\rightarrow$
+
+$$=e^{\frac{x^2}{4(\epsilon+it)}}\int e^{-(\epsilon+it)|\xi|^2} d\xi $$
+
+Now another Contour integration $\rightarrow$
+
+$$= e^{\frac{x^2}{4(\epsilon+it)}}\int e^{-t|\xi|^2}d\xi =\frac{C}{t^{\frac{d}{2}}} $$
+
+
+
+\end{proof}
+
+\emph{Wednesday, February 19, 2014}
+
+\begin{thm} [Dispersive Estimates]
+
+$$\| e^{it\Delta}f \|_{p} \leq \frac{C}{t^{d/2-d/p}} \| f\|_{p'}$$
+for $2\leq p\leq \infty.$
+\end{thm}
+
+\begin{proof}
+
+\emph{Step 1: Case $p=2$}
+
+This case follows by the Plancharel theorem. 
+
+\emph{Step 2: Case $p=\infty$}
+
+Recall that $$e^{it\Delta} f =K_{t} \star f   $$
+
+where $$K_{t}= \frac{C}{t^{d/2}}e^{i\frac{x^2}{4t}}$$
+
+so that $$\|K_{t}\|_{\infty} \leq \frac{c}{t^{d/2}}$$
+
+Now the theorem follows by Young's inequality:
+
+$$\|f\star g \|_\infty \leq C \|f\|_{\infty} \|g\|_{1}.$$
+
+
+\begin{thm} (Riesz-Thorin)
+Assume $T$ is a linear operator and $p_1,p_2,q_1,q_2 \in [1,\infty].$
+
+Assume $$T: L^{p_1} \rightarrow L^{q_1}$$ with norm $A_1$ 
+and $$T: L^{p_2} \rightarrow L^{q_2}$$ with norm $A_2.$
+
+Then take $0\leq \theta \leq 1.$ Let $p,q$ be defined by :
+
+$$\frac{1}{p} = \frac{\theta}{p_1} + \frac{1-\theta}{p_2},$$
+$$\frac{1}{q} = \frac{\theta}{q_1} + \frac{1-\theta}{q_2}.$$
+
+THEN, $$T:L^p \rightarrow L^q$$ with norm $A_{1}^\theta A_2 ^{1-\theta}.$
+\end{thm}
+
+
+\emph{Step 3: General $2\leq p\leq \infty$}
+
+This step will follow by the Riesz-Thorin interpolation theorem. Indeed, define $$T:= e^{it\Delta}.$$
+
+We know that $$T:L^2\rightarrow L^2$$ with norm 1 and that $$T:L^1 \rightarrow L^\infty$$ with norm $C/t^{d/2}.$
+
+
+If $\theta \in [0,1]$ define $$\frac{1}{p} =\frac{\theta}{2}+\frac{\theta-1}{1} $$ $$\frac{1}{q} =\frac{\theta}{2}.$$
+
+Then note that $\frac{1}{p}+\frac{1}{q}=1$ and $$T:L^p\rightarrow L^q$$ with the right norm. 
+
+\end{proof}
+
+\section{Energy Type Identities}
+
+Take any Fourier multiplier $m.$  Then, $$\| m(D)e^{it\Delta}f\|_2= \| m(D)f \|_{2}.$$
+
+The interesting point is when $m(D)=|D|^s.$ $$\| m(D)f \|_2 = \| f \|_{\dot{H}^s}.$$
+
+Thus for the linear Schrodinger equation, the $L^2$ norm of the function and its derivatives are conserved. 
+
+For the non-linear problem, we only keep the conservation of the $L^2$ norm (we will see this later). 
+
+\begin{thm} (The Virial Identity)
+
+If $u=e^{it\Delta} f$ then \begin{equation} \frac{d^2} {dt^2} \int x^2 |u(t,x)|^2 dx = 4\int |\nabla u(t,x)|^2 \end{equation}
+
+\end{thm}
+Recall that the right hand side of the Virial identity, (6.1), is  a conserved quantity. 
+
+Remark: If we think about the fact that a wave packet moves with a particular group velocity. Assume that $\hat{f}$ is localized around  $\xi_0$ and assume $\|f\|_2=1.$ We expect that $u$ is localized at $x\approx 2t\xi_0$ so $\int|\nabla f|^2 \approx \xi_0^2.$ On the other hand, $\int x^2 |u|^2 \approx 4t^2 \xi_{0}.$ This is consistent with the virial identity.   
+
+\begin{proof} 
+$$xu=xe^{it\Delta}f$$
+Fourier transform $\rightarrow $
+
+$$\hat{xu} = i\partial_{\xi} e^{it\xi^2}hat{f}$$
+
+$$= e^{it\xi^2}(-2t\xi \hat{f}+i\partial_{xi} \hat{f})$$
+So, $$|\hat{xu}|^2= (-2t\xi\hat{f}+i\partial_{\xi}\hat{f}) CONJUGATE[(-2t\xi\hat{f}+i\partial_\xi \hat{f})]$$
+$$=4t^2 \xi^2 |\hat{f}|^2+l.o.t$$
+
+Now when we take two derivatives in time we get $$\frac{d^2}{dt^2} \int |xu|^2 = 8 \int |\nabla f|^2$$
+\end{proof}
+
+\section{Some Real Analysis}
+
+The Holder inequality says: $$\|fg \|_p \leq \| f\|_q \|g \|_{r},$$ $$\frac{1}{p} = \frac{1}{q}+\frac{1}{r}$$
+
+\begin{thm}
+
+Let $f,g$ be measurable on $\R^d.$
+
+$$\| f\star g\|_{p} \leq \|f\|_{q} \|g\|_r$$ if $1\leq p,q,r \leq \infty.$
+
+\end{thm}
+
+\begin{proof}
+Step 1: $L^1 \star L^q \rightarrow L^q.$
+
+This will follow from Minkowski's inequality for integrals.
+
+$$\|f\star g\|_{q} = \| \int f(y)g(x-y)dy \|_q \leq \int |f(y)|\| g(x-y) \|_q dy = \|f\|_1 \|g\|_q$$
+
+Step 2: $L^{q'} \star L^q \rightarrow L^\infty$
+
+$$|f\star g|= | \int f(y)g(x-y)dy | \leq \|f \|_q \|g\|_{q'} $$ by Holder's inequality.
+
+Step 3: Interpolate between steps 1 and 2. 
+
+Now, fix some $f\in L^q$ and define $T:\phi \rightarrow f\star \phi.$
+
+By steps 1 and 2, $T$ maps $L^1$ to $L^q$ and $L^{q'} $ to $L^\infty$ both with norm $\|f\|_{q}.$ Using the Riesz-Thorin theorem, we get Young's inequality. 
+
+\end{proof}
+
+Young's inequality says that $$\| f\star g\|_{p} \leq \|f\|_{q} \|g\|_r$$ if $1\leq p,q,r \leq \infty$ if $$1+\frac{1}{p} = \frac{1}{q}+\frac{1}{r}$$
+
+A boundary case is $$\frac{1}{|x|^{d/q}}$$ this barely fails to be in $L^q.$ The Hardy-Littlewood-Sobolev inequality tells you that Young's inequality remains true for such an $f.$
+
+
+\begin{thm} 
+
+$$\|\frac{1}{|x|^\alpha}\star f \|_q \leq C \|f\|_{q}$$
+
+if $$\frac{1}{q} + \frac{\alpha}{d}= 1+ \frac{1}{r}, 1<q,r<\infty, \, \, 0<\alpha<d$$
+
+
+\end{thm}
+
+Remark: this is just another way of formulating the Sobolev inequality. 
+
+\subsection{All the inequalities together}
+
+The Holder inequality says: $$\|fg \|_p \leq \| f\|_q \|g \|_{r},$$ $$\frac{1}{p} = \frac{1}{q}+\frac{1}{r}$$
+Young's inequality says: $$\|f\star g \|_p \leq \| f\|_q \|g \|_{r},$$ $$1+\frac{1}{p} = \frac{1}{q}+\frac{1}{r}$$
+The HLS inequality says:  $$\|\frac{1}{|x|^\alpha}\star f \|_q \leq C \|f\|_{q}$$
+
+if $$\frac{1}{q} + \frac{\alpha}{d}= 1+ \frac{1}{r}, 1<q,r<\infty, \, \, 0<\alpha<d.$$
+
+\section{The Strichartz Estimates}
+
+These inequalities go back to Bob Strichartz in 1977. 
+
+We saw the dispersive estimate. 
+
+$$\| e^{it\Delta} f \|_p \leq \frac{C}{t^{d/2-d/p}} \| f\|_{p'}.$$
+
+Is it possible to prove that 
+
+$$\| e^{it\Delta} f \|_p \leq \frac{c}{t^\alpha} \|f\|_2? $$
+
+No. Impossible ( just replace $f$ by $e^{-it\Delta}g$.)
+
+Conclusion: pointwise decay in time cannot be expected. 
+
+Replace it by average time decay. 
+
+We want to prove that $$\big \| \| e^{it\Delta} f \|_{L^p_x} \big \|_{L^q_t} <\infty$$ for some $p$ and $q.$
+
+We will use the following notation:
+
+$$\|f\|_{L^p_t L^q_x} =  \big \| \| f \|_{L^q_x} \big \|_{L^p_t} $$
+
+\begin{thm}
+$L^p_t L^q_x$ is a Banach space under this norm. 
+\end{thm}
+
+
+\begin{thm}
+A pair of exponents $(q,r)$ is admissible if $2\leq q,r\leq \infty $ and $$\frac{2}{q}+\frac{d}{n}=\frac{d}{2}, \, \, \, (q,r,d) \not = (2,\infty, 2)$$
+If $(q,r)$ and $(\tilde{q},\tilde{r})$ are admissible, then 
+
+$$(1) \| e^{it\Delta}f \|_{L^q_t L^r_x} \leq C\|f\|_2$$
+$$(2) \| \int e^{is\Delta} F(s,t)ds \|_{L^2_x} \leq \| F\|_{L^{q'}_t L^{r'}_x}$$
+$$(3) \| \int_{0}^{t} e^{i(t-s)\Delta} F(s,x) ds \|_{L^q_tL^r_x} \leq C \|F \|_{L^{\tilde{q}'}_t L^{\tilde{r}'}_x} $$
+
+
+ 
+\end{thm}
+
+Remarks: 
+
+(1) Why $\frac{2}{q}+ \frac{d}{r} = \frac{d}{2}?$
+
+Scaling! We want $$\| e^{it\Delta} f \|_{L^p_t L^q_x} \leq C\|f\|_{L^2}$$ for any $f.$ Therefore it should hold for $f(\lambda \cdot)$ for $\lambda>0$.
+
+In this case we see:
+
+$$\lambda^{-2/q-d/r} \| e^{it\Delta}f\|_{L^q_t L^r_x} \leq C\lambda^{-d/2}\|f\|_L^2$$
+
+Thus we see  (taking $\lambda$ to be $0$ or $\infty$) we must have that $2/q+d/r=d/2.$
+
+(2) Pictures of the admissible exponents. 
+
+
+\emph{Wednesday, February 26, 2014}
+
+\subsection{A few tricks before proving the Strichartz estimates}
+
+Let $T$ be an operator from $L^p \rightarrow L^2$ or from a Banach space to a Hilbert space. 
+
+\emph{Claim:} ($TT^*$ argument) $T$ is bounded from $L^p$ to $L^2$ if and only if $T*T$ is bounded from $L^p$ to $L^{p'}.$
+
+\begin{proof}
+If $T$ is bounded from $L^p$ to $L^2$ then $T^*$ is bounded from $L^{2}$ to $L^{p'}.$
+This implies that $T^{*}T$ is bounded from $L^p$ to $L^{p'}.$
+
+On the other hand, if $T^{*}T$  is bounded from $L^p$ to $L^{p'}$ Then, $$\| T^* T f\|_{L^{p'}} \leq C \|f \|_{L^p}$$
+
+So, $$\| Tf\|_{L^2}^2 = < T*Tf, f> \leq C \| f \|_{L^{p}} \| f\|_{L^p}$$
+ 
+Thus, $$\| Tf\|_{L^2}\leq \|f \|_{L^p}$$
+
+\end{proof}
+
+Recall also the Hardy-Littlewood-Sobolev inequality. $$\|\frac{1}{|x|^\alpha}\star f \|_q \leq C \|f\|_{q}$$
+
+if $$\frac{1}{q} + \frac{\alpha}{d}= 1+ \frac{1}{r}, 1<q,r<\infty, \, \, 0<\alpha<d$$
+
+\begin{proof} (Of the Strichartz Estimates)
+\subsection{Proof of (2)}
+First estimate $$\big \| \int e^{i\Delta (t-s)} F(s)ds  \big \|_{L^q_t L^r_x} $$
+
+By the Minkowski inequality for integrals this is bounded by $$\leq \big \| \int \| e^{i\Delta (t-s)} F(s)\|_{L^r_x}ds  \big \|_{L^q_t } $$
+
+By the dispersive estimate: 
+
+$$ \leq c \big \| \int \frac{1}{(t-s)^{\frac{d}{2}-\frac{d}{r}}} \|F(s) \|_{L_x^{r'}}        \big \|_{L^q_t}$$
+
+By the Hardy Littlewood Sobolev inequality $$\leq C \| F \|_{L^{q'}_t L^{r'}_x}$$
+
+
+Now we use a $TT*$ argument. 
+
+$$ \| \int e^{-is\Delta}F(s) ds \|_{L^2}^2 = \big <  \int e^{-is\Delta} F(s) ds, \int e^{-it\Delta} F(t)dt  \big >$$
+
+Now we can take the integral outside of the inner product
+$$ = \int  \big <  \int e^{-is\Delta} F(s) ds,  e^{-it\Delta} F(t)  \big >dt $$
+
+Now the adjoint of $e^{it\Delta}$ is just $e^{-it\Delta}$ so we get
+
+$$ =  \int  \big <  \int e^{-i(s-t)\Delta} F(s) ds, F(t)  \big >dt $$
+
+Remember that the brackets $<,>$ refers to the $L^2$ inner product.
+
+$$=  \int \int  \big [ \int e^{-i(s-t)\Delta} F(s) ds \big  ] F(t) dx dt  $$
+
+$$\leq  \big \| \int e^{i\Delta (t-s)} F(s)ds  \big \|_{L^q_t L^r_x}  \| F \|_{L^{q'}L^{r'}} \leq C \| F \|_{L^{q'}L^{r'}}^2 
+ $$
+
+This proves assertion (2) in Theorem 8.2 (the Strichartz estimates).
+
+\subsection{Proof of (1)} This will actually follow by duality. 
+
+Indeed, (2) is true if and only if $$\sup_{\|f\|_{L^2} \leq 1 } \big < \int_{-\infty}^{\infty} e^{is\Delta} F(s)ds , f \big > \leq C \| F\|_{L^{q'}L^{r'}}$$
+Now this is true if and only if   $$\sup_{\|f\|_{L^2} \leq 1 , \| F\|_{L^{q'}L^{r'}}\leq 1 } \big < \int_{-\infty}^{\infty} e^{is\Delta} F(s)ds , f \big > \leq C$$
+Which is the same as $$\sup_{\|f\|_{L^2} \leq 1 , \| F\|_{L^{q'}L^{r'}}\leq 1 } \int_{-\infty}^{\infty} \big < F(s) , e^{-is\Delta}  f \big >ds \leq C$$
+This is now true if and only if   $$\sup_{\| F\|_{L^{q'}L^{r'}}\leq 1 } \int_{-\infty}^{\infty} \big < F(s) , e^{-is\Delta}  f \big >ds \leq C \|f \|_{L^2}$$
+
+which is assertion (1). This shows that (2) is true if and only if (1) is true and we know that (2) is true.
+
+\subsection{Proof of (3)} 
+
+$$\| \int e^{i\Delta(t-s)} F(s) ds \|_{L^q L^r} = \| e^{-is\Delta} F(s) ds \|_{L^q L^r}$$
+
+$$\leq \| \int e^{-is\Delta} F(s) ds \|_{L^2}$$
+
+$$\leq C \| F \|_{L^{q'}L^{r'}}.$$
+
+\end{proof}
+
+Note that in the previous proof, since it relied upon the Hardy Littlewood Sobolev, we didn't get the endpoint cases. To deal with the endpoint cases we need some more machinery but we don't worry about that here. 
+
+\section{Smoothing Estimates}
+
+\begin{thm} (Smoothing estimate) (due to Kato)
+
+$$\int \frac{ \big | |D|^{1/2} e^{it\Delta} f \big |^2}{<x>^{1+\epsilon}}dxdt \leq C\| f \|_{L^2}^2$$
+
+
+\end{thm}
+
+Remarks: 
+
+(1) Averaging in time and localizing in space one gains $\frac{1}{2}$ of a derivative. 
+
+(2) Without time averaging (that is, if we take the $L^\infty$ norm in $t$) no such estimate can be true. 
+
+(3) Without space localization this cannot be true. 
+
+This is called "local-smoothing."
+
+For generalizations, see the paper of Xuwen Chen "Elementary proofs for Kato's smoothing estimates"
+
+\subsection{Some tools}
+
+\begin{thm} (Hausdorff-Young inequality)
+
+$$\mathcal{F} : L^p \rightarrow L^{p'} for 1\leq p \leq 2. $$
+
+\end{thm}
+
+\begin{proof}
+
+(1) $\mathcal{F}$ is an isometry on $L^2$.
+
+(2) $|\mathcal{F} (f)|_{L^\infty} \leq |f|_{L^1}$
+
+(3) Interpolate using the Riesz-Thorin theorem
+
+\end{proof}
+
+\begin{lemm}
+If $0<\alpha<d$ then $$\mathcal{F} : \frac{1}{|x|^\alpha} \rightarrow \frac{C_\alpha}{|x|^{d-\alpha}}$$
+\end{lemm}
+
+\begin{proof}
+
+(1) If a function is radial then its Fourier transform is also radial. We see this by noting that the Fourier transform is invariant under rotations. 
+
+(2) The Fourier transform respects homogeneity in a certain sense. Indeed, $\mathcal{F}(\frac{1}{|x|^\alpha})$ has homogeneity $\alpha-d.$
+
+Putting (1) and (2) together we get the lemma by noting that for $d/2<\alpha<d$ $$\frac{1}{|x|^{\alpha}} \in L^2 + L^1$$ we see that $$\mathcal{F} (\frac{1}{|x|^{\alpha}}) \in L^2 + L^\infty$$
+
+This gives us the lemma. 
+
+\end{proof}
+
+Now we can prove the smoothing estimate. 
+
+\begin{proof} (Smoothing Estimate)
+
+Here, we follow the proof give in the lecture notes of Killip and Villani. 
+
+Let $a(x)=\frac{1}{<x>^{1+\epsilon}}$
+
+$$\int \int \big | |D|^\frac{1}{2} e^{it\Delta} f\big |^2 a(x)dxdt= \int \int  |D|^{1/2} e^{it\Delta}f \bar{|D|^{1/2} e^{it\Delta}f} a(x) dx dt $$
+
+Now use that $$\int ab\gamma = \int \hat{a}\hat{b\gamma}=\int\hat{a}( \hat{b}\star \hat{\gamma})$$
+
+$$=\int_{t} \int_{\xi} |\xi|^{1/2}e^{-it|\xi|^2} \hat{f}(\xi) \int_\eta |\eta|^{1/2} e^{it|\eta|^2} \hat{f}(\eta)\hat{a}(\xi-\eta)d\eta d\xi dt$$
+
+$$=\int_{t} \int_{\xi}\int_\eta  |\xi|^{1/2} |\eta|^{1/2} e^{it(|\eta|^2-|\xi|^2)} \hat{f}(\xi)\hat{f}(\eta)\hat{a}(\xi-\eta)d\eta d\xi dt$$
+
+
+\begin{lemm}
+$$I=\int e^{i\lambda \phi(x)}F(x)= \int_{\phi=0} \frac{F(x)}{|\nabla\phi(x)|}d\Sigma$$
+\end{lemm}
+
+The proof of the lemma is an application of the co-area formula. 
+
+Recall the co-area formula: 
+Let $u:\mathbb{R}^d \rightarrow \mathbb{R}.$
+$$\int_{\mathbb{R}^d} g(x)dx = \int_{-\infty}^{\infty} \big ( \int_{\{ u=t\} } g  \frac{d\Sigma}{|\nabla u|} \big ) dt $$
+
+Now we want to use the coarea formula to transform $I$ into an integral on the level sets of $\phi.$
+
+You can write
+
+$$\int e^{i\lambda \phi(x)}F(x)= \int_{\lambda}  \int_y \int_{\phi=y} e^{i\lambda y} F(x) \frac{d\Sigma}{|\nabla \phi(x)|}dyd\lambda $$
+$$= \int_{\lambda}  \int_{y} e^{i\lambda y} \int_{\{\phi=y\}} F(x) \frac{d\Sigma}{|\nabla \phi(x)|}dyd\lambda $$
+Call $$G(y)= \int_{\{\phi=y\}} F(x) \frac{d\Sigma}{|\nabla \phi(x)|} $$
+
+So that $$I=\int_\lambda \hat{G}(\lambda)d\lambda=G(0)$$
+
+Thus, $I=G(0)$ and the lemma is proved. Now we want to transform the expression $$=\int_{t} \int_{\xi}\int_\eta  |\xi|^{1/2} |\eta|^{1/2} e^{it(|\eta|^2-|\xi|^2)} \hat{f}(\xi)\hat{f}(\eta)\hat{a}(\xi-\eta)d\eta d\xi dt$$ into a nicer form using the lemma. 
+
+
+What plays the role of $\phi(\xi,\eta)=|\eta|^2-|\xi|^2.$ This vanishes where $|\eta|=|\xi|.$
+
+Furthermore, $|\nabla \phi|= 2\sqrt{|\eta|^2 + |\xi|^2}.$
+
+Thus we get:
+
+$$\int_{|\xi|=|\eta|} \hat{f}(\xi) \hat{f}(\eta) \hat{a}(\xi-\eta) |\xi|^{1/2} |\eta|^{1/2} \frac{1}{2\sqrt{|\xi|^2+|\eta|^2}}d\Sigma$$
+
+Now taking absolute values and putting them inside note that we get: 
+
+
+$$|...| \leq \int |\hat{f}(\xi)| |\hat{f}(\eta)| |\hat{a}(\xi-\eta)| d\Sigma.$$
+
+Note this is why we take $|D|^{1/2}.$
+
+\emph{Wednesday, March 5, 2014}
+
+So we want to estimate 
+
+$$ \int |\hat{f}(\xi)| |\hat{f}(\eta)| |\hat{a}(\xi-\eta)| d\Sigma\leq \int |\hat{f}(\xi)|^2 \big ( \int_{|\xi|=|\eta|}|\hat{a}(\xi-\eta)|^2\big )d\xi$$ by the Cauchy Schwartz inequality.
+
+Now, if we are able to prove that $$ \big ( \int_{|\xi|=|\eta|}|\hat{a}(\xi-\eta)|^2\big )$$ is uniformly bounded in $\xi$ then we will be done by the fact that the Fourier transform is an isometry on $L^2.$
+
+Now, recall that  $a(x)=\frac{1}{<x>^{1+\epsilon}}$ so heuristically we can easily see the following lemma:
+
+\begin{lemm}
+
+Let $a(x)=\frac{1}{<x>^{1+\epsilon}}.$
+Then, $\hat{a}(\xi) \leq \frac{C_N}{|\xi|^N}$ for all $N$ as $\xi\rightarrow \infty.$
+and $\hat{a}(\xi)\frac{C}{|\xi|^{d-1-\epsilon}}$ as $\xi \rightarrow 0.$
+
+
+\end{lemm}
+\qed 
+
+
+Now, in estimating the integral $$ \big ( \int_{|\xi|=|\eta|}|\hat{a}(\xi-\eta)|^2\big )$$ there are two regions:
+
+(1) when $\eta$ is close to $\xi$ In this region, $|\hat{a}(\xi-\eta) \approx \frac{1}{|\xi-\eta|^{d-1-\epsilon}}$ whose integral converges on the $d-1$ dimensional set. 
+
+(2) when $\eta$ is far away from $\xi$ $\hat{a}$ decays arbitrarily fast which is fine too. 
+
+Thus we are done up to the lemma. 
+
+
+\end{proof}
+
+\begin{proof} (Of the lemma)
+
+\emph{Case 1:} $\xi\rightarrow\infty.$
+
+$a(x)=\frac{1}{<x>^{1+\epsilon}}.$ Take $N$ derivatives.
+
+Then, $$\nabla^N a(x) \in L^1, N>d.$$
+
+Taking the Fourier transform, we see that $$|\xi|^N \hat{a} \in L^\infty.$$  So Case 1 is done. 
+
+\emph{Case 2:} $\xi\rightarrow 0.$
+
+Take $\hat{\chi} \in C^{\infty}_0$ (then $\chi$ is the Schwartz class).\
+Take $\chi \star a.$
+
+One can see that $\chi\star a \approx \frac{C}{|x|^{1+\epsilon}}$ as $|x|\rightarrow \infty.$
+
+In particular, $$\chi\star a (x) = \frac{C}{|x|^{1+\epsilon}} + (\text{error as} \, \, x\rightarrow\infty) + (\text{error as} \,\, x\rightarrow 0) $$
+
+so that $$\hat{\chi}(\xi)\hat{a}(\xi)= \frac{C}{|\xi|^{d-1-\epsilon}}+ \text{error}$$
+\end{proof}
+
+
+\section{Strichartz Estimates on the Torus}
+
+(1) Dispersive estimates
+
+(2) Strichartz estimates
+
+(3) Smoothing estimates
+
+What's the problem? The mechanism behind all of these estimates is that things were "running away to $\infty.$" Such a mechanism obviously cannot exist on the Torus. Yet, we can still do something. 
+
+\subsection{Fourier Analysis on $\mathbb{T}^d$}
+
+$$f(x)= \sum_{k\in \mathbb{Z}^d} \hat{f}_k e^{2\pi i x\cdot k}$$
+
+$$\int_{\mathbb{T}^d}f(x)e^{-2\pi i x\cdot l}dx= \hat{f}_l$$
+
+Furthermore, $$\int_{\mathbb{T}^d} |f(x)|^2 dx= \sum_{k} |\hat{f}_k|^2.$$
+
+Therefore, $$f\rightarrow (\hat{f}_k)$$ is an isometry from $L^2 \rightarrow l^2.$
+
+Moreover, $$\partial_{j}f(x)=\sum_{k\in \mathbb{Z}^d} 2\pi i k_{j}\hat{f}_k e^{2\pi i x\cdot k}.$$
+
+\subsection{The Schrodinger Equation on $\mathbb{T}^d$}
+
+Let us solve the Schrodinger equation on $\mathbb{T}^d:$
+
+$$i\partial_{t} u -\Delta u =0,$$
+$$u(t=0)=f$$
+
+Taking the "Fourier Transform" we get 
+
+$$i\partial_{t} \hat{u}_k + 4\pi^2 k^2 \hat{u}_k =0$$
+$$\hat{u}_k (t=0)=\hat{f}_k$$
+
+Which implies that $$\hat{u}_k (t)= e^{it4\pi^2 |k|^2} \hat{f}_k$$
+
+So, $$u(t,x)= \sum_{k} \hat{f}_k e^{i(2\pi x\cdot k +4\pi^2 t k^2)}$$
+
+
+So, we get that $u$ is 1-periodic in $x_j$ for all $j$ and $\frac{1}{2\pi}$ periodic in time. 
+
+Note: \emph{This precludes any estimate giving decay in time.} 
+
+What about local estimates in $t?$
+
+\begin{thm} (Due to Zygmund) 
+Let $u,f$ be as above, 
+
+$$\| u\|_{L^{4}_{t,x}([0,\frac{1}{2\pi}]\times\mathbb{T})} \leq c \| f\|_{L^2(\mathbb{T})} $$
+
+\end{thm}
+
+Comparing with the Strichartz estimate on $\mathbb{R}$ 
+
+(2) Gives some smoothing. 
+
+(3) For which $p$ is it true that $$\| u\|_{L^{p}_{t,x}([0,\frac{1}{2\pi}]\times\mathbb{T})} \leq c \| f\|_{L^2(\mathbb{T})}? $$
+
+The answer to this question is basically wide open!
+
+\begin{proof}
+$$f=\sum_{k\in \mathbb{Z}} a_k e^{i2\pi xk}$$
+$$u=\sum_{k\in \mathbb{Z}} a_k e^{i(2\pi xk+4\pi^2 t k^2)}$$
+$$|u|^2= \sum_{k,l \in \mathbb{Z}}a_{k}\bar{a_l}e^{i(2\pi x(k-l)+4\pi^2 t (k^2-l^2))}$$
+$$= \sum_{k} |a_k|^2 +  \sum_{k\not = l \in \mathbb{Z}}a_{k}\bar{a_l}e^{i(2\pi x(k-l)+4\pi^2 t (k^2-l^2))}$$
+
+For $(m,n) \in \mathbb{Z}^2$ we want to define $b_{m,n}$ as follows: $$b_{m,n}= a_{k}\bar{a_l} \, \, \text{if there exists} \, \,  k \not = l \,\, \text{such that} k-l =m , k^2-l^2=n $$
+$$b_{m,n} =0, \,\, \text{otherwise}.$$
+
+Then, $$|u|^2=\sum_{k} |a_k|^2 +  \sum_{m,n}b_{m,n}e^{i(2\pi xm+4\pi^2 t n)} $$
+
+
+Now, $$\| |u|^2\|_{L^2}^2= (\sum_{k} |a_k|^2)^2 + \sum_{m,n} |b_{m,n}|^2= (\sum_{k} |a_k|^2)^2 + \sum_{m,n} |b_{m,n}|^2 + \sum_{k\not =l}|a_{k}|^2|a_{l}|^2 $$
+\end{proof}
+
+\part{Perturbative Approach to The Nonlinear Problem}
+
+First, what do we mean by perturbative? This is a "weakly nonlinear regime." This nonlinear weakness is generally quantified by a small parameter. 
+
+What we want to study is the so-called Cauchy problem. 
+
+$$i\partial_t u -\Delta u= |u|^2 u$$
+$$u(t=0)=f$$
+
+$$(t,x)\in \mathbb{R} \times \mathbb{T}^d \, \,\text{or} \, \,  \mathbb{R} \times \mathbb{R}^d.$$
+
+Our aim: well-posedness. 
+
+\begin{defn}
+The Cauchy problem is well posed if there exist 
+
+(A) A Banach space $X_{data}$ for $f,$ 
+
+(B) A Banach space $X_{sol}$ for $u,$
+
+such that 
+
+(1) (Existence) For each $f\in X_{data}$ there exists a solution $u\in X_{sol}$
+
+(2) (Uniqueness) It is unique
+
+(3) (Continuous dependence)  $f\rightarrow u$ is continuous from $X_{data} \rightarrow X_{sol}.$
+
+\end{defn}
+
+We speak of local well-posedness if $X_{sol}$ is local in time. 
+We speak of global well-posedness if $X_{sol}$ is global in time. 
+
+\end{document}
